@@ -29,10 +29,6 @@ from GuitarSetTest import read_tablature_from_GuitarSet
 import pickle     
 
 
-
-
-
-
 def get_annos_for_separate_strings(data, annotation_name, constants : Constants):
     """function that loads annotation and audio file and returns instances"""
     annotations = read_tablature_from_GuitarSet(annotation_name, constants)
@@ -84,17 +80,13 @@ def compute_all_betas(constants : Constants, StrBetaObj):
 
     lines = os.listdir(constants.dataset_names_path+'/data/audio')
     for count, name in enumerate(lines):
-        # print(name, count)
         if '_hex_cln.' not in name:
-            continue    
-        # if '_hex.' not in name:
-        #     continue        
+            continue      
         if '_solo' not in name:
             continue
         print(name)
         track_name = name
         name = name.split('.')[0]
-        # name = name[:-4] + '.jams'
         name = name[:-8] + '.jams'
         print(name, count,'/',len(lines))
 
@@ -127,11 +119,14 @@ if __name__ == '__main__':
         constants = Constants(args.config_path, args.workspace_folder)
     except Exception as e:
         print(e)
-    
+        
+    try:
+        os.mkdir('./results')
+    except Exception as e:
+        print('GootToKnow:', e)
 
     # HARDWIRE CONSTANTS
     constants.plot = args.plot
-    # constants.compute = args.compute
 
     print('Check if you are OK with certain important configuration constants:')
     print('****************************')
@@ -153,14 +148,11 @@ if __name__ == '__main__':
 
     if args.train:
         StrBetaObj = GuitarSetTrainWrapper(constants)
-        # with open('data/train/StrBetaObj.pickle', 'wb') as file:
-        #     pickle.dump(StrBetaObj, file)
+
     else:
         with open('data/train/StrBetaObj.pickle', 'rb') as file:
             StrBetaObj = pickle.load(file)
 
-
-    # compute_partial_orders(StrBetaObj, constants)
     if args.compute:
         compute_all_betas(constants, StrBetaObj)
         for s in range(6):
@@ -169,19 +161,12 @@ if __name__ == '__main__':
                     median_betas[s,n] = statistics.median(betas[s,n])
         np.savez("./results/n_tonos.npz", median_betas=median_betas)
 
-    # for s in range(6):
-    #     plt.plot(range(15), median_betas[s,:], label=str(s))
-
     npzfile = np.load('./results/n_tonos.npz', allow_pickle=True) # allow_pickle is needed because dtype=object, since None elements exist.
-    # npzfile = np.load('./results/n_tonos_hex_cln_solos.npz', allow_pickle=True) # allow_pickle is needed because dtype=object, since None elements exist.
 
     median_betas = npzfile['median_betas']
 
 
-    nf=17
-    # for s in range(6):
-    #     plt.plot(range(nf), median_betas[s,:], label=str(s))
-
+    nf=13
     for s in range(6):
         diff = np.log2(median_betas[s,:nf].astype(np.float64))-np.log2(median_betas[s,0].astype(np.float64))
         plt.plot(range(nf), 6*diff, label=StringNames[s], linewidth=1.75, alpha=0.85)

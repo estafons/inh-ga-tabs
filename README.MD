@@ -3,6 +3,8 @@
 Run:
 
 ```
+conda create -n tabs python=3.9.6
+conda activate tabs
 pip install -r requirements.txt
 ```
 

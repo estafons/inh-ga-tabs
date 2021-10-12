@@ -5,7 +5,6 @@ import argparse
 import numpy as np
 
 BASE_PATH = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-# cur_path = Path(BASE_PATH + '/src/InharmonicStringDetection')
 cur_path = Path(BASE_PATH + '/src/')
 sys.path.append(str(cur_path))
 cur_path = Path(BASE_PATH + '/exps')
@@ -71,9 +70,7 @@ def testHjerrildChristensen(constants : Constants, StrBetaObj):
 											'/string' +str(string + 1) +'/' + str(fret) +'.wav')
 				rec_audio, _ = librosa.load(path_to_track, constants.sampling_rate)
 
-				# Onset detection (instances not always occur at the beginning of the recording)
-				# y = librosa.onset.onset_detect(audio, constants.sampling_rate)
-				# audio = audio[int(y[0]):] # adding this line because ther5e might be more than one onsets occurring in the recording
+
 
 				path_to_onsettime = Path(constants.workspace_folder + '/data/onsets/' +
 									 constants.guitar + str(dataset_no) + 
@@ -83,8 +80,7 @@ def testHjerrildChristensen(constants : Constants, StrBetaObj):
 					onsetsec = float(f.read())
 					onsetidx = int(onsetsec*constants.sampling_rate)
 					plus60idx = int(0.06*constants.sampling_rate)
-					# print(onsetidx, plus60idx)
-				# audio = audio[onsetidx:(onsetidx+plus60idx)] # adding this line because ther5e might be more than one onsets occurring in the recording
+
 				audio60ms = rec_audio[onsetidx:(onsetidx+plus60idx)] # restricted to 60ms
 				longaudio = rec_audio[onsetidx:] # not restricted to 60ms
 
@@ -97,18 +93,10 @@ def testHjerrildChristensen(constants : Constants, StrBetaObj):
 					f0s, _, _ = librosa.pyin(audio60ms, fmin=80, fmax=1500, sr=constants.sampling_rate)
 					f0s = f0s[~np.isnan(f0s)]
 
-					# ### simple method #### __gb__
-					# f0_id = np.argmin(np.abs(f0s-fundamental_init))
-					# f0 = f0s[f0_id]
-
 					### more sophisticated method i.e. mean of 10 closest estimations to expected value #### __gb__
 					idx = np.argsort(np.abs(f0s-fundamental_init))
 					f0 = np.sum( f0s[idx[:10]] )/10
 				
-				# NOTE: below commented is Stef's alternative method for variable partial numebers to be employed
-				# ToolBoxObj = ToolBox(partial_tracking_func=compute_partials_with_order_strict, inharmonicity_compute_func=compute_inharmonicity, 
-				#                 partial_func_args=[fundamental_init/2, constants, StrBetaObj], inharmonic_func_args=[])
-				# TODO: make inharmonicity_compute_func have a meaning, also 1st arg of partial_func_args
 				ToolBoxObj = ToolBox(partial_tracking_func=compute_partials, inharmonicity_compute_func=compute_inharmonicity, 
 								partial_func_args=[constants.no_of_partials, fundamental_init/2, constants, StrBetaObj], inharmonic_func_args=[])
 				if constants.f0again == 'internal':
@@ -136,9 +124,7 @@ def testHjerrildChristensen(constants : Constants, StrBetaObj):
 				# Compute Confusion Matrix
 				InhConfusionMatrixObj.matrix[string][note_instance.string] += 1 # similar to running add_to_track_predictions_to_matrix()
 			count+=1
-			# if count > 1:
-			# 	break
-	# print(InhConfusionMatrixObj.get_accuracy(constants)[0])			
+	
 	print('Accuracy:', round(InhConfusionMatrixObj.get_accuracy()[0],3))
 	InhConfusionMatrixObj.plot_confusion_matrix(constants, normalize= True, 
 													title = str(constants.guitar) + '_' +
@@ -146,7 +132,6 @@ def testHjerrildChristensen(constants : Constants, StrBetaObj):
 														str(round(InhConfusionMatrixObj.get_accuracy()[0],3)) +
 														'__Inc rate_' +
 														str(round(InhConfusionMatrixObj.get_accuracy()[1],3)) )
-														# str(round(InhConfusionMatrixObj.get_current_accuracy(),3))
 
 if __name__ == '__main__':
 	print('Check if you are OK with certain important configuration constants:')

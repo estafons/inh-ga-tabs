@@ -7,8 +7,3 @@ exps/HjerrildDataset/data/train/
 desktop.ini
 *.png
 exps/GuitarSet/tmp.wav
-dist/
-pyproject.toml
-setup.cfg
-src/InharmonicAnalysis.egg-info/
-tests/

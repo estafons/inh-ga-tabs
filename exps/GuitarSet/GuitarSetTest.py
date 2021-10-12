@@ -27,7 +27,6 @@ import soundfile as sf
 import warnings
 warnings.filterwarnings("ignore")
 
-#config_path = Path("C:\\Users/stefa/Documents//Inharmonic String Detection/exps/constants.ini")
 
 def read_tablature_from_GuitarSet(jam_name, constants):
     """function to read a jam file and return the annotations needed"""
@@ -171,6 +170,12 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
+
+    try:
+        os.mkdir('./results')
+    except Exception as e:
+        print('GootToKnow:', e)
+
     try:
         constants = Constants(args.config_path, args.workspace_folder)
     except Exception as e:
@@ -186,8 +191,6 @@ if __name__ == '__main__':
         constants.train_mode = args.train_mode
         constants.update_betafunc()
 
-
-
     print('Check if you are OK with certain important configuration constants:')
     print('****************************')
     print('dataset:', constants.dataset)
@@ -198,8 +201,4 @@ if __name__ == '__main__':
     print()
 
     StrBetaObj = GuitarSetTrainWrapper(constants)
-    # compute_partial_orders(StrBetaObj, constants)
-    # with open('data/train/StrBetaObj.pickle', 'rb') as file:
-    #     StrBetaObj = pickle.load(file)
-
     testGuitarSet(constants, StrBetaObj)
