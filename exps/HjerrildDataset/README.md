@@ -1,7 +1,7 @@
 ## Audio-Based String Classifier
 
 
-Download the zip file ```MATLAB_hjerrild_icassp19_guitar_string_fret_and_plucking_estimator``` from the link below
+Download the zip file ```MATLAB_hjerrild_icassp19_guitar_string_fret_and_plucking_estimator.zip``` from the link below
 
 https://vbn.aau.dk/en/publications/estimation-of-guitar-string-fret-and-plucking-position-using-para
 
