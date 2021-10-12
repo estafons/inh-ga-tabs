@@ -8,7 +8,7 @@ conda activate tabs
 pip install -r requirements.txt
 ```
 
-## Experiment on Hjerrild dataset
+## Experiment on Hjerrild and Christensen dataset
 
 Check ```./exps/GuitarSet/README.md```.
 
