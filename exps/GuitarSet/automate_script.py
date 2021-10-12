@@ -19,3 +19,4 @@ if __name__ == '__main__':
             # cmd_str = ' '.join(['python', str(script_path), str(constants_path), str(workspace_path), '--dataset', dataset,'--train_mode', train_mode])
             proc = subprocess.Popen(cmd_list, stdin=None, stdout=None, stderr=None)#, shell=True)    
             # break   
+            

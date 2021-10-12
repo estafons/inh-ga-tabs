@@ -96,7 +96,7 @@ def predictTabThesis(track_instance : TrackInstance, annotations : Annotations, 
             peak_freqs = [partial.frequency for partial in note_instance.partials]
             peaks_idx = [partial.peak_idx for partial in note_instance.partials]
             
-            note_instance.plot_partial_deviations(lim=30, res=note_instance.abc, ax=ax1, note_instance=note_instance, annos_instance=annos_instance, tab_instance=tab_instance) #, peaks_idx=Peaks_Idx)
+            note_instance.plot_partial_deviations(lim=30, res=note_instance.abc, ax=ax1, note_instance=note_instance, annos_instance=annos_instance.string, tab_instance=tab_instance) #, peaks_idx=Peaks_Idx)
             note_instance.plot_DFT(peak_freqs, peaks_idx, lim=30, ax=ax2)   
             fig.savefig('imgs/auto_img_test_examples/'+str(note_instance.string)+'_'+str(filename)+'.png')
             # timer.start()
@@ -144,13 +144,17 @@ def testGuitarSet(constants : Constants, StrBetaObj):
         #     break
 
     InhConfusionMatrixObj.plot_confusion_matrix(constants, normalize= True, 
-                                title = str(constants.no_of_partials) + 'Inharmonic Confusion Matrix' +str(round(InhConfusionMatrixObj.get_accuracy(),3)))
-    print('Audio-based mean accuracy:', round(InhConfusionMatrixObj.get_accuracy(),3))
+                                                title = 'Acc_' +
+														str(round(InhConfusionMatrixObj.get_accuracy()[0],3)) +
+														'__Inc rate_' +
+														str(round(InhConfusionMatrixObj.get_accuracy()[1],3)) 
+                                                )
+    # print('Audio-based mean accuracy:', str(round(InhConfusionMatrixObj.get_accuracy()[0],3)))
 
     if constants.run_genetic_alg:
         GenConfusionMatrixObj.plot_confusion_matrix(constants, normalize= True, 
-                                title = 'Genetic Confusion Matrix'+str(round(GenConfusionMatrixObj.get_accuracy(),3)))
-        print('GA context-based mean accuracy:', round(GenConfusionMatrixObj.get_accuracy(),3))
+                                title = 'GA Confusion Matrix'+str(round(GenConfusionMatrixObj.get_accuracy(ga=True)[0],3)))
+        print('GA context-based mean accuracy:', round(GenConfusionMatrixObj.get_accuracy(ga=True)[0],3))
 
 
 

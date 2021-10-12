@@ -121,22 +121,31 @@ def testHjerrildChristensen(constants : Constants, StrBetaObj):
 					print("Wrong arguments given for f0again. Add a valid value in the corresponding field of constants.ini: 'interanal' or 'external' or 'no'")
 					exit(1)
 				# Detect plucked string (i.e. assigns value to note_instance.string)
-				# try:
 				Inharmonic_Detector.DetectString(note_instance, StrBetaObj, constants.betafunc, constants)
-				# except ValueError:
-				# 	note_instance = NoteInstance(fundamental_init, 0, audio60ms, ToolBoxObj, constants.sampling_rate, constants)
-				# 	Inharmonic_Detector.DetectString(note_instance, StrBetaObj, constants.betafunc, constants)
-				# 	print('Problem with fundamental estimation')
+
+				if constants.plot:
+					fig = plt.figure(figsize=(15, 10))
+					ax1 = fig.add_subplot(2, 1, 1)
+					ax2 = fig.add_subplot(2, 1, 2)
+					peak_freqs = [partial.frequency for partial in note_instance.partials]
+					peaks_idx = [partial.peak_idx for partial in note_instance.partials]
+					note_instance.plot_partial_deviations(lim=30, res=note_instance.abc, ax=ax1, note_instance=note_instance, annos_instance=string) #, peaks_idx=Peaks_Idx)
+					note_instance.plot_DFT(peak_freqs, peaks_idx, lim=30, ax=ax2)   
+					plt.show()
 
 				# Compute Confusion Matrix
-				InhConfusionMatrixObj.matrix[string][note_instance.string] += 1
+				InhConfusionMatrixObj.matrix[string][note_instance.string] += 1 # similar to running add_to_track_predictions_to_matrix()
 			count+=1
-	# print(InhConfusionMatrixObj.get_accuracy())			
-	print('Accuracy:', round(InhConfusionMatrixObj.get_accuracy(),3))
+			# if count > 1:
+			# 	break
+	# print(InhConfusionMatrixObj.get_accuracy(constants)[0])			
+	print('Accuracy:', round(InhConfusionMatrixObj.get_accuracy()[0],3))
 	InhConfusionMatrixObj.plot_confusion_matrix(constants, normalize= True, 
-													title = str(constants.guitar) + str(constants.no_of_partials) +
-														'Inharmonic Confusion Matrix' +
-														str(round(InhConfusionMatrixObj.get_accuracy(),3)))
+													title = str(constants.guitar) + '_' +
+														'Acc_' +
+														str(round(InhConfusionMatrixObj.get_accuracy()[0],3)) +
+														'__Inc rate_' +
+														str(round(InhConfusionMatrixObj.get_accuracy()[1],3)) )
 														# str(round(InhConfusionMatrixObj.get_current_accuracy(),3))
 
 if __name__ == '__main__':

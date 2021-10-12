@@ -45,6 +45,8 @@ def TrainWrapper(constants : Constants):
     strBetaObj.list_to_medians()
     # print(strBetaObj.betas_array)
     strBetaObj.set_limits(constants)
+    # constants.upper_limit = 1
+    # constants.lower_limit = 0
     print('Acceptable range of beta values:', constants.upper_limit, '-', constants.lower_limit)
     print()
     return strBetaObj

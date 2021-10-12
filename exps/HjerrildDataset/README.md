@@ -22,3 +22,4 @@ python HjerrildTest.py constants.ini . {-plot} --guitar {martin, firebrand} --tr
 ```
 
 The results will be stored to dir ```./results```.
+
