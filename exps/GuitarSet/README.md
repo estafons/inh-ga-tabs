@@ -19,18 +19,19 @@ Download from GuitarSet dataset (https://zenodo.org/record/3371780):
 1) ```annotations.zip``` and extract all ```.jams``` files to ```data/annos```.
 2) ```audio_mono-mic.zip```, ``` audio_mono-pickup_mix.zip``` and extract all ```.wav``` files to ```data/audio```.
 
-Specify the folders on the configuration file (currently ```constants.ini```) where annotations and input audio is stored. 
+On the configuration file ```constants.ini```, specify the folders where annotations and input audio is stored. 
 
-The track names from the subset from GuitarSet that was considered monophonic (more than 60ms between onsets), is stored as a txt file and uploaded (```names.txt```). Specify the location where the ```names.txt``` file is located or another subset of your choice. 
+The track names from the subset from GuitarSet that was considered monophonic performance (i.e. more than 60ms between onsets), is stored as a txt file: ```./names.txt```. 
+<!-- Specify the location where the ```names.txt``` file is located or another subset of your choice.  -->
 
-To reproduce all results, run: 
+To reproduce all results by running each experiment as parallel processes, execute: 
 ```
-python automate_scripts.py
+python automate_script.py
 ```
 
-Confusion Matrices containting the overall accuracy are produced and stored in .png form in ```./results``` dir.
+This normally takes several hours to complete. Confusion Matrices containting the overall accuracy measures on string detection are produced and stored in .png form in ```./results``` dir.
 
-For more controlable experiments run the command below with the dsirable arguments or configure the model by tweekinig values of ```constants.ini``` accordingly:
+For more controllable experiments run the command below with the dsirable arguments or configure the model by tweekinig values of ```constants.ini``` accordingly:
 
 ```
 python GuitarSetTest.py constants.ini . {-plot} {-verbose} {-run_genetic_alg} --dataset {mix, mic} --train_mode {1Fret,2FretA,2FretB,3Fret}
