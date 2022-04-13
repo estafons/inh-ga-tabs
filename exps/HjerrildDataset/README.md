@@ -10,7 +10,7 @@ and extract the content of dir ```hjerrild_ICASSP2019_guitar_dataset``` to ```./
 
 To reproduce all results, run: 
 ```
-python automate_scripts.py
+python automate_script.py
 ```
 
 Confusion Matrices containting the overall accuracy are produced and stored in .png form in ```./results``` dir.
