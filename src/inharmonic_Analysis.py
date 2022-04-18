@@ -119,9 +119,9 @@ class NoteInstance():
             c = 'black'
         
         if tab_instance:
-            plt.title("pred: "+ str(note_instance.string) + ", annotation: " + str(annos_instance.string) + ', fret: ' + str(tab_instance.fret) + ' || f0: ' + str(round(self.fundamental,2)) + ', beta_estimate: '+ str(round(self.beta,6)), color=c) # + '\n a = ' + str(round(a,5)), color=c)
+            plt.title("pred: "+ str(note_instance.string) + ", annotation: " + str(annos_string) + ', fret: ' + str(tab_instance.fret) + ' || f0: ' + str(round(self.fundamental,2)) + ', beta_estimate: '+ str(round(self.beta,6)), color=c) # + '\n a = ' + str(round(a,5)), color=c)
         else:
-            plt.title("pred: "+ str(note_instance.string) + ", annotation: " + str(annos_instance.string) + ' || f0: ' + str(round(self.fundamental,2)) + ', beta_estimate: '+ str(round(self.beta,6)), color=c)# + '\n a = ' + str(round(a,5)), color=c)
+            plt.title("pred: "+ str(note_instance.string) + ", annotation: " + str(annos_string) + ' || f0: ' + str(round(self.fundamental,2)) + ', beta_estimate: '+ str(round(self.beta,6)), color=c)# + '\n a = ' + str(round(a,5)), color=c)
 
         return ax
 
@@ -194,15 +194,15 @@ def compute_partials(note_instance, partial_func_args):
             note_instance.partials=[]
 
 
-    if constants.plot: 
-        peak_freqs = [partial.frequency for partial in note_instance.partials]
-        peaks_idx = [partial.peak_idx for partial in note_instance.partials]
-        fig = plt.figure(figsize=(15, 10))
-        ax1 = fig.add_subplot(2, 1, 1)
-        ax2 = fig.add_subplot(2, 1, 2)
-        note_instance.plot_partial_deviations(lim=30, res=note_instance.abc, ax=ax1, note_instance=note_instance) #, peaks_idx=Peaks_Idx)
-        note_instance.plot_DFT(peak_freqs, peaks_idx, lim=30, ax=ax2)   
-        plt.show()
+    # if constants.plot: 
+    #     peak_freqs = [partial.frequency for partial in note_instance.partials]
+    #     peaks_idx = [partial.peak_idx for partial in note_instance.partials]
+    #     fig = plt.figure(figsize=(15, 10))
+    #     ax1 = fig.add_subplot(2, 1, 1)
+    #     ax2 = fig.add_subplot(2, 1, 2)
+    #     note_instance.plot_partial_deviations(lim=30, res=note_instance.abc, ax=ax1, note_instance=note_instance) #, peaks_idx=Peaks_Idx)
+    #     note_instance.plot_DFT(peak_freqs, peaks_idx, lim=30, ax=ax2)   
+    #     plt.show()
     
 
 def compute_differences(note_instance):

@@ -5,5 +5,5 @@ exps/HjerrildDataset/data/train/
 .vscode
 *.mid
 desktop.ini
-*.png
+# *.png
 exps/GuitarSet/tmp.wav
