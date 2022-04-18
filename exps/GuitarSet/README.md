@@ -43,7 +43,7 @@ To get a better understanding and insights of the inharmonicity-based classfier,
 python GuitarSetTest.py constants.ini . -plot --dataset {mix, mic} --train_mode {1Fret,2FretA,2FretB,3Fret}
 ```
 
-You will be able to hear each 60ms note instance excerpt and see a visualisation of its beta measurement simultaneously.
+You will be able to hear each 60ms note instance excerpt and see a visualisation of the corresponding beta measurement simultaneously.
 These outputs are stored at ```./get_a_glimpse``` dir.
 
 In order to plot guitar inharmonic irregularity, run:
