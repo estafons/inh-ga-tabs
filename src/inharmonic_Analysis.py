@@ -169,7 +169,7 @@ def compute_partials(note_instance, partial_func_args):
     step=2
     bound = constants.no_of_partials + constants.no_of_partials % step
     for lim in range(6,31,step):
-        for k in range(2,lim): # NOTE: 2 stands for the 2nd partial! TODO: use 3 instead if we wan t to start processing from the 2nd partial and further
+        for k in range(2,lim): # 2 stands for the 2nd partial!
             # center_freq = k*f0 * np.sqrt(1+b_est*k**2)
             center_freq = window_centering_func(k,f0, a=a,b=b,c=c) # centering window in which to look for peak/partial
             try:
