@@ -68,10 +68,9 @@ def predictTabThesis(track_instance : TrackInstance, annotations : Annotations, 
     def close_event(): # https://stackoverflow.com/questions/30364770/how-to-set-timeout-to-pyplot-show-in-matplotlib
         plt.close() #timer calls this function after 3 seconds and closes the window 
 
+    os.makedirs('get_a_glimpse/'+str(filename))
     """Inharmonic prediction of tablature as implemented for thesis """
     for tab_instance, annos_instance in zip(track_instance.tablature.tablature, annotations.tablature.tablature):
-        # ToolBoxObj = ToolBox(compute_partials_with_order, compute_inharmonicity, [tab_instance.fundamental/2, constants, StrBetaObj], [])
-        # TODO: make inharmonicity_compute_func have a meaning, also 1st arg of partial_func_args
         ToolBoxObj = ToolBox(partial_tracking_func=compute_partials, inharmonicity_compute_func=compute_inharmonicity, 
                             partial_func_args=[constants.no_of_partials, tab_instance.fundamental/2, constants, StrBetaObj], inharmonic_func_args=[])
         note_instance = NoteInstance(tab_instance.fundamental, tab_instance.onset, tab_instance.note_audio, ToolBoxObj, track_instance.sampling_rate, constants)
@@ -95,17 +94,16 @@ def predictTabThesis(track_instance : TrackInstance, annotations : Annotations, 
             peak_freqs = [partial.frequency for partial in note_instance.partials]
             peaks_idx = [partial.peak_idx for partial in note_instance.partials]
             
-            note_instance.plot_partial_deviations(lim=30, res=note_instance.abc, ax=ax1, note_instance=note_instance, annos_instance=annos_instance.string, tab_instance=tab_instance) #, peaks_idx=Peaks_Idx)
+            note_instance.plot_partial_deviations(lim=30, res=note_instance.abc, ax=ax1, note_instance=note_instance, annos_string=annos_instance.string, tab_instance=tab_instance) #, peaks_idx=Peaks_Idx)
             note_instance.plot_DFT(peak_freqs, peaks_idx, lim=30, ax=ax2)   
-            fig.savefig('imgs/auto_img_test_examples/'+str(note_instance.string)+'_'+str(filename)+'.png')
-            # timer.start()
+            fig.savefig('get_a_glimpse/'+str(filename)+'/'+str(tab_instance.onset)+'.png')
+            sf.write('get_a_glimpse/'+str(filename)+'/'+str(tab_instance.onset)+'.wav', tab_instance.note_audio, 44100, 'PCM_16')
+            timer.start()
             plt.show()
 
 def testGuitarSet(constants : Constants, StrBetaObj):
     """ function that runs tests on the jams files mentioned in the given file 
     and plots the confusion matrixes for both the genetic and inharmonic results."""
-
-    # TODO: check multipitch instances, that is
 
     InhConfusionMatrixObj = ConfusionMatrix((6,7), inconclusive = True)
     GenConfusionMatrixObj = ConfusionMatrix((6,6), inconclusive = False)
