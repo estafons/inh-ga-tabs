@@ -34,8 +34,17 @@ This normally takes several hours to complete. Confusion Matrices containting th
 For more controllable experiments run the command below with the dsirable arguments or configure the model by tweekinig values of ```constants.ini``` accordingly:
 
 ```
-python GuitarSetTest.py constants.ini . {-plot} {-verbose} {-run_genetic_alg} --dataset {mix, mic} --train_mode {1Fret,2FretA,2FretB,3Fret}
+python GuitarSetTest.py constants.ini . {-verbose} {-run_genetic_alg} --dataset {mix, mic} --train_mode {1Fret,2FretA,2FretB,3Fret}
 ```
+
+To get a better understanding and insights of the inharmonicity-based classfier, run:
+
+```
+python GuitarSetTest.py constants.ini . -plot --dataset {mix, mic} --train_mode {1Fret,2FretA,2FretB,3Fret}
+```
+
+You will be able to hear each 60ms not instance excerpt and see a visualisation of its beta measurement simultaneously.
+These outputs are stored at ```./get_a_glimpse``` dir.
 
 In order to plot guitar inharmonic irregularity, run:
 ```
